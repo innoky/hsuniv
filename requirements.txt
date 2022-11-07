@@ -1,3 +1,4 @@
 pyTelegramBotAPI
 pyTelegramBotApi
 flask
+telebot
