@@ -1,7 +1,4 @@
 #---------------------------------------------------------------------------
-
-
-
 import telebot
 import time
 import random
@@ -94,6 +91,7 @@ def lalala(message):
             with open("graphdraw.py", "w") as file:
                 file.write(
 '''
+from numpy import sqrt, sin, cos, pi
 import matplotlib.pyplot as plt
 import os.path
 import numpy as np

@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import sqrt, sin, cos, pi
 with open("int_get.txt", "r") as file:
     for line in file:
         text = str(line)
