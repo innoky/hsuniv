@@ -6,6 +6,7 @@ import telebot
 import time
 import random
 import os
+import os.path
 import numpy as np
 from telebot import types
 
@@ -49,6 +50,28 @@ def welcome(message):
 
 def lalala(message):
     if message.chat.type == 'private':
+        if message.text == "help":
+            bot.send_message(message.chat.id,
+            '''
+Здравствуй, я HS Intelligence, бот с большим полезным функционалом, который с постоянно улучшается и увеличивается.
+
+Вот что я могу на сегодняшний день ⬇️
+
+▫️ Почитать интеграл.
+Подробнее, вводи : int info
+
+▫️ Нарисовать график данной функции.
+Подробнее, вводи : graph draw
+
+▫️ Нарисовать и вывести значения угла на тригонометрической окружности
+Подробнее, вводи : tg circle
+
+▫️ Вывести много знаков после запятой числа pi
+Вводи : pi
+
+▫️ Вывести простое число (ограниченое количество)
+Например, вводи : пятое простое число
+            ''')
         if message.text == '📙 Персонализировать материал':
             bot.send_message(message.chat.id, 'Пока что эта функция в разработке, но скоро она станет доступна!')
 
@@ -60,23 +83,61 @@ def lalala(message):
         elif message.text == "📗 Случайная статья":
             list_st = ["https://telegra.ph/CHast-1-Grafiki-funkcii-10-31","https://telegra.ph/Krivolinejnoe-dvizhenie-10-13","https://telegra.ph/Perevod-chisel-iz-desyatichnoj-sistemy-schisleniya-10-08", "https://telegra.ph/Sposob-nahodit-znacheniya-celyh-kubicheskih-kornej-v-ume-09-30", "https://telegra.ph/Kak-najti-kvadratnyj-koren-lyubogo-racionalnogo-chisla-na-bumage-09-28", "https://telegra.ph/Algebraicheskie-uravneniya-i-neravenstva-Lekciya-ZFTSH-MFTI-09-23", "https://telegra.ph/Kodirovanie-graficheskoj-informacii-09-21", "https://telegra.ph/Kompleksnye-chisla-09-18", "https://telegra.ph/Kinematika-Konspekt-2-09-18", "https://telegra.ph/Kodirovanie-tekstovoj-informacii-09-14", "https://telegra.ph/Osnovnye-opredeleniya-fiziki-Konspekt-09-06", "https://telegra.ph/Metod-matematicheskoj-indukcii-08-28"]
             random_index = random.randrange(len(list_st))
-            list_stik = ["CAACAgIAAxkBAAEGUyljZsZpa4LRXxbSEKAVV7ApTRyqrAAC3MYBAAFji0YMsbUSFEouGv8rBA", "CAACAgIAAxkBAAEGUyxjZsZwcRZICAXFXyXZ6HlkGVIbmAAC3cYBAAFji0YM608pO-wjAlErBA", "CAACAgIAAxkBAAEGUy5jZsZxUAN7jhaQgypRx001c3CPGwAC3sYBAAFji0YMVHH9hav7ILkrBA", "CAACAgIAAxkBAAEGUzFjZsZ1Shg2QQzidBWLN_Wm_E4SVgAC38YBAAFji0YMHEUTINW7YxcrBA"]
+            list_stik = ["CAцACAgIAAxkBAAEGUyljZsZpa4LRXxbSEKAVV7ApTRyqrAAC3MYBAAFji0YMsbUSFEouGv8rBA", "CAACAgIAAxkBAAEGUyxjZsZwcRZICAXFXyXZ6HlkGVIbmAAC3cYBAAFji0YM608pO-wjAlErBA", "CAACAgIAAxkBAAEGUy5jZsZxUAN7jhaQgypRx001c3CPGwAC3sYBAAFji0YMVHH9hav7ILkrBA", "CAACAgIAAxkBAAEGUzFjZsZ1Shg2QQzidBWLN_Wm_E4SVgAC38YBAAFji0YMHEUTINW7YxcrBA"]
             random_index1 = random.randrange(len(list_stik))
             bot.send_sticker(message.chat.id, list_stik[random_index1])
             bot.send_message(message.chat.id, list_st[random_index])
+        #Отрисовка графиков
+        elif "funcdraw" in message.text:
+            clear_graph = message.text.replace("funcdraw ", "")
+            clear_graph1 = clear_graph.replace("^", "**")
+            with open("graphdraw.py", "w") as file:
+                file.write(
+'''
+import matplotlib.pyplot as plt
+import os.path
+import numpy as np
+x = np.linspace(-5,5,100)
+'''
++ clear_graph1 +
+'''
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.spines['left'].set_position('center')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+
+# plot the function
+plt.plot(x,y, 'r')
+
+# show the plot
+plt.savefig('/home/innoky/Documents/hsbot/hsuniv/graphs/graphdraw.png')
+''')
+            #num_files = len([f for f in os.listdir(path)
+            #    if os.path.isfile(os.path.join(path, f))])
+            os.system("python3 graphdraw.py")
+            time.sleep(1)
+            bot.send_message(message.chat.id, "График вашей функции:")
+            bot.send_photo(message.chat.id, open('/home/innoky/Documents/hsbot/hsuniv/graphs/graphdraw.png', 'rb'));
 
         #интегрирования
         elif "integral" in message.text:
             clear_func = message.text.replace("integral ", "")
+            clear_func1 = clear_func.replace("^", "**")
             with open("int_get.txt", "w") as file:
-                file.write(clear_func)
-            os.system('python3 integral.py')
+                file.write(clear_func1)
 
+            os.system('python3 integral.py')
             time.sleep(2)
             with open("int_out.txt", "r") as file:
                 for line in file:
                     text1 = str(line)
-                bot.send_message(message.chat.id, text1)
+            bot.send_message(message.chat.id, "Ваш интеграл равен:")
+            bot.send_message(message.chat.id, text1)
         #популярная статья
         elif message.text == "📘 Популярное":
             bot.send_message(message.chat.id, 'Кажется это самая читаемая статья, возможно она вам покажется интересной \n\nhttps://telegra.ph/Sposob-nahodit-znacheniya-celyh-kubicheskih-kornej-v-ume-09-30', parse_mode='html')

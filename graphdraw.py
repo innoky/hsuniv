@@ -1,13 +1,10 @@
+
 import matplotlib.pyplot as plt
+import os.path
 import numpy as np
-
-# 100 linearly spaced numbers
 x = np.linspace(-5,5,100)
+y=x-(7/x**3)
 
-# the function, which is y = x^2 here
-y = x**2
-
-# setting the axes at the centre
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 ax.spines['left'].set_position('center')
@@ -21,4 +18,4 @@ ax.yaxis.set_ticks_position('left')
 plt.plot(x,y, 'r')
 
 # show the plot
-plt.show()
+plt.savefig('/home/innoky/Documents/hsbot/hsuniv/graphs/graphdraw.png')
